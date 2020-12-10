@@ -3,6 +3,7 @@ package com.example.logreg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class LoggedInActivity extends AppCompatActivity {
 
