@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLDatabase extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "felhasznalo";
+    public static final String DB_NAME = "felhasznalo.db";
     public static final int DB_VERSION = 1;
 
     public static final  String DB_TABLE     = "felhasznalo";
@@ -42,7 +42,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public boolean adatrogzites(String email, String fNev,String fJelszo, String teljesNev){
+    public boolean adatRogzites(String email, String fNev,String fJelszo, String teljesNev){
         SQLiteDatabase db= this.getWritableDatabase();
         ContentValues values = new  ContentValues();
         values.put(TABLE_EMAIL,email);
@@ -53,9 +53,15 @@ public class SQLDatabase extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public Cursor adatLekerdezes(){
+    public Cursor adatLekerdezes(String nev){
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(DB_TABLE, new  String[]{TABLE_ID,TABLE_EMAIL,TABLE_FELHNEV,TABLE_JELSZO,TABLE_FELHNEV},
-                null,null,null,null,null,null);
+        return db.rawQuery("SELECT teljesnev FROM "+ DB_TABLE +" WHERE felhnev = ?",new String[]{nev});
+        //return db.query(DB_TABLE, new  String[]{TABLE_ID,TABLE_EMAIL,TABLE_FELHNEV,TABLE_JELSZO,TABLE_FELHNEV},null,null,null,null,null,null);
+    }
+
+    public Cursor adatLekerdezesEmail(String emil){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT teljesnev FROM "+ DB_TABLE +" WHERE email = ?",new String[]{emil});
+        //return db.query(DB_TABLE, new  String[]{TABLE_ID,TABLE_EMAIL,TABLE_FELHNEV,TABLE_JELSZO,TABLE_FELHNEV},null,null,null,null,null,null);
     }
 }
