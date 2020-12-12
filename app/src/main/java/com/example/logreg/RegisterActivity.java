@@ -3,6 +3,7 @@ package com.example.logreg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -25,25 +26,44 @@ public class RegisterActivity extends AppCompatActivity {
         botunOnClick();
     }
 
+    private boolean egezo(){
+        Cursor adatok =  adatbzias.kereses(et_email.getText().toString().trim());
+        StringBuilder stringBuilder = new  StringBuilder();
+        while (adatok.moveToNext()){
+            stringBuilder.append("teljses név : ").append(adatok.getString(0)).append("\n");
+        }
+        Toast.makeText(this, ""+ adatok.getString(0) +"", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
     private void FehasznaloRogziese() {
-        String emil =et_email.getText().toString().trim();
+        String emil = et_email.getText().toString().trim();
         String felhNev = et_felhNev.getText().toString().trim();
         String jelszo = et_jelszo.getText().toString().trim();
         String teljesNev = et_teljesNev.getText().toString().trim();
-        if (emil.isEmpty()){
+
+        /*if (emil.isEmpty()){
             Toast.makeText(this, "Az emil megadás kötelezö!", Toast.LENGTH_SHORT).show();
         }
         if (felhNev.isEmpty()){
             Toast.makeText(this, "A felhasználonév megadás kötelezö!", Toast.LENGTH_SHORT).show();
         }
-
-        if (jelszo.isEmpty() && jelszo.length() > 5){
+        if (jelszo.length() < 5){
             Toast.makeText(this, "a jelszonak minimum 5 maximum 25 kraktrt kell tartalmazni.", Toast.LENGTH_SHORT).show();
         }
         if (teljesNev.isEmpty()){
             Toast.makeText(this, "A teljes név megadás kötelezö!", Toast.LENGTH_SHORT).show();
+        }*/
+        if (teljesNev.isEmpty() || jelszo.isEmpty() || felhNev.isEmpty() || emil.isEmpty()){
+            Toast.makeText(this, "minden mezöt ki kel töltni", Toast.LENGTH_SHORT).show();
         }
-        boolean sikeres = adatbzias.adatRogzites(emil,felhNev,jelszo,teljesNev);
+        if (jelszo.length() < 5){
+            Toast.makeText(this, "a jelszonak minimum 5 maximum 25 karaktert kell tartalmazni.", Toast.LENGTH_SHORT).show();
+        }
+        boolean sikeres = false;
+        if (!teljesNev.isEmpty() && jelszo.length() >= 5 && !felhNev.isEmpty() && !emil.isEmpty()){
+            sikeres = adatbzias.adatRogzites(emil,felhNev,jelszo,teljesNev);
+        }
         if (sikeres){
             Toast.makeText(this, "sikeres regisztráció", Toast.LENGTH_SHORT).show();
         } else {

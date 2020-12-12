@@ -64,4 +64,15 @@ public class SQLDatabase extends SQLiteOpenHelper {
         return db.rawQuery("SELECT teljesnev FROM "+ DB_TABLE +" WHERE email = ?",new String[]{emil});
         //return db.query(DB_TABLE, new  String[]{TABLE_ID,TABLE_EMAIL,TABLE_FELHNEV,TABLE_JELSZO,TABLE_FELHNEV},null,null,null,null,null,null);
     }
+
+    public Cursor adaLekerdezesTeszt(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(DB_TABLE,new   String[]{TABLE_ID,TABLE_EMAIL,TABLE_FELHNEV,TABLE_JELSZO,TABLE_TELJESNEV},
+        null,null,null,null,null);
+    }
+
+    public Cursor kereses(String emil){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT COUNT(email) FROM "+ DB_TABLE +" WHERE email = ?",new String[]{emil});
+    }
 }

@@ -11,7 +11,8 @@
         android:theme="@style/Theme.LOGREG">
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".LoggedInActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
